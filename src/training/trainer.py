@@ -55,10 +55,11 @@ class Trainer:
         for epoch in range(start_epoch, num_epochs + 1):
             self.training_epoch(wrapper, train_data, epoch, optimizer, scheduler)
 
-            wandb.log(self.losses, step=epoch)
+            wandb.log({name: loss.compute() for name, loss in self.losses.items()}, step=epoch)
 
             mAP = self.validation_epoch(wrapper, val_data)
             wandb.log({"mAP": mAP}, step=epoch)
+            print("mAP:", mAP)
 
             self.backup(wrapper.model, optimizer, scheduler, epoch)
 
