@@ -53,7 +53,7 @@ class Trainer:
         for epoch in range(start_epoch, num_epochs + 1):
             self.training_epoch(wrapper, train_data, epoch, optimizer, scheduler)
 
-            wandb.log({name: loss.compute() for name, loss in self.losses.items()}, step=epoch)
+            wandb.log(self.losses, step=epoch)
 
             mAP = self.validation_epoch(wrapper, val_data)
             wandb.log({"mAP": mAP}, step=epoch)
@@ -78,6 +78,11 @@ class Trainer:
 
                 optimizer.zero_grad()
                 loss.backward()
+
+                for name, sub_loss in losses.items():
+                    self.losses[name].update(sub_loss)
+
+                self.losses["total_loss"].update(loss)
 
                 if self.max_grad_norm:
                     nn.utils.clip_grad_norm_(
