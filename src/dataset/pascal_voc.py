@@ -63,7 +63,7 @@ class VOCDataset(Dataset):
         self._class2idx = {name: idx for idx, name in enumerate(self.classes)}
 
     def __getitem__(self, idx):
-        img, info = self.data[idx]
+        img, info = self._data[idx]
         img = np.array(img)
 
         gt_boxes, labels = [], []
