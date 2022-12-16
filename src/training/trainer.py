@@ -39,6 +39,9 @@ class Trainer:
             "total_loss": MeanMetric(),
         }
 
+        for name in self.losses:
+            self.losses[name] = self.losses[name].to(self.device)
+
     def __call__(
         self, wrapper: TrainerWrapper, train_data, val_data, num_epochs, restore=True
     ):
