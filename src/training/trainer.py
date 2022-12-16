@@ -1,11 +1,9 @@
 import os
-import pickle
 import torch
 from torch import nn
 from torchmetrics.detection.mean_ap import MeanAveragePrecision
 from torchmetrics import MeanMetric
 from tqdm import tqdm
-from statistics import mean
 import wandb
 
 from .wrapper import TrainerWrapper
@@ -44,8 +42,8 @@ class Trainer:
     def __call__(
         self, wrapper: TrainerWrapper, train_data, val_data, num_epochs, restore=True
     ):
-        optimizer, scheduler, start_epoch = self._load_params(wrapper, restore)
         wandb.init(project="Faster RCNN", resume=restore)
+        optimizer, scheduler, start_epoch = self._load_params(wrapper, restore)
 
         if self.val_test_first:
             mAP = self.validation_epoch(wrapper, val_data, max_batches=5)
