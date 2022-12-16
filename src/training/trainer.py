@@ -198,12 +198,10 @@ class Trainer:
             ckpt_path,
         )
 
-        wandb.save(ckpt_path)
-
     def restore(self):
         ckpt_path = os.path.join(self.model_checkpoint, "checkpoint.pth")
 
-        checkpoint = torch.load(wandb.restore(ckpt_path), map_location=self.device)
+        checkpoint = torch.load(ckpt_path, map_location=self.device)
 
         return (
             checkpoint["model_state"],
@@ -215,7 +213,7 @@ class Trainer:
     def restore_model(self, model: FasterRCNN):
         ckpt_path = os.path.join(self.model_checkpoint, "checkpoint.pth")
 
-        checkpoint = torch.load(wandb.restore(ckpt_path), map_location=self.device)
+        checkpoint = torch.load(ckpt_path, map_location=self.device)
 
         model.load_state_dict(checkpoint["model_state"])
 
