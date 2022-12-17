@@ -7,6 +7,29 @@ from albumentations.pytorch import ToTensorV2
 
 VOC_MEAN = (0.485, 0.456, 0.406)
 VOC_STD = (0.229, 0.224, 0.225)
+VOC_CLASSES = (
+    "__background__",  # always index 0
+    "aeroplane",
+    "bicycle",
+    "bird",
+    "boat",
+    "bottle",
+    "bus",
+    "car",
+    "cat",
+    "chair",
+    "cow",
+    "diningtable",
+    "dog",
+    "horse",
+    "motorbike",
+    "person",
+    "pottedplant",
+    "sheep",
+    "sofa",
+    "train",
+    "tvmonitor",
+)
 
 
 class VOCDataset(Dataset):
@@ -37,30 +60,7 @@ class VOCDataset(Dataset):
             download=True,
         )
 
-        self.classes = (
-            "__background__",  # always index 0
-            "aeroplane",
-            "bicycle",
-            "bird",
-            "boat",
-            "bottle",
-            "bus",
-            "car",
-            "cat",
-            "chair",
-            "cow",
-            "diningtable",
-            "dog",
-            "horse",
-            "motorbike",
-            "person",
-            "pottedplant",
-            "sheep",
-            "sofa",
-            "train",
-            "tvmonitor",
-        )
-        self._class2idx = {name: idx for idx, name in enumerate(self.classes)}
+        self._class2idx = {name: idx for idx, name in enumerate(VOC_CLASSES)}
 
     def __getitem__(self, idx):
         img, info = self._data[idx]
