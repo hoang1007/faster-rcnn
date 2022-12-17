@@ -15,6 +15,7 @@ def main():
     parser.add_argument("--use_adam", type=bool, default=False)
 
     args = parser.parse_args()
+    print(args)
 
     model = faster_rcnn(config.model)
     model_wrapper = TrainerWrapper(
