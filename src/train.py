@@ -8,7 +8,7 @@ from argparse import ArgumentParser
 def main():
     parser = ArgumentParser()
     parser.add_argument("--ckpt_dir", type=str, default="checkpoints")
-    parser.add_argument("--restore", type=bool, default=True)
+    parser.add_argument("--restore", action="store_true")
     parser.add_argument("--device", type=str, default="cuda")
     parser.add_argument("--grad_clip", type=float, default=None)
     parser.add_argument("--epochs", type=int, default=10)
