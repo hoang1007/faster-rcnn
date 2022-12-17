@@ -36,12 +36,11 @@ proposal_target = {
 }
 
 optimizer = {
-    "double_bias": True,
-    "bias_decay": False,
-    "weight_decay": 0.0001,
-    "momentum": 0.9,
     "lr": 0.001,
-    "lr_gamma": 0.1,
+    "weight_decay": 0.0001,
+    "bias_decay": False,
+    "double_bias": True,
+    "momentum": 0.9,
     "lr_decay": 0.1,
     "monitor_mode": "max",
     "patience": 3,
