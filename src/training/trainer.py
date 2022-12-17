@@ -62,6 +62,7 @@ class Trainer:
             wandb.log({"mAP": mAP}, step=epoch)
             print("mAP:", mAP)
 
+            scheduler.step(mAP)
             self.backup(wrapper.model, optimizer, scheduler, epoch)
 
             for loss in self.losses.values():
@@ -92,7 +93,6 @@ class Trainer:
                         wrapper.model.parameters(), self.max_grad_norm
                     )
                 optimizer.step()
-        scheduler.step()
 
     @torch.no_grad()
     def validation_epoch(self, wrapper: TrainerWrapper, val_data, max_batches=None):
@@ -162,14 +162,8 @@ class Trainer:
             wrapper.load_state_dict(model_state)
 
             optimizer, scheduler = wrapper.get_optimizers(
-                lr=self.optimizer_config.get("learning_rate"),
-                weight_decay=self.optimizer_config.get("weight_decay"),
-                bias_decay=self.optimizer_config.get("bias_decay"),
-                double_bias=self.optimizer_config.get("double_bias"),
-                momentum=self.optimizer_config.get("train_momentum"),
-                lr_decay=self.optimizer_config.get("lr_decay"),
-                step_lr_decay=self.optimizer_config.get("step_lr_decay"),
                 use_adam=self.use_adam,
+                **self.optimizer_config
             )
 
             optimizer.load_state_dict(optimizer_state)
@@ -181,14 +175,8 @@ class Trainer:
 
             wrapper.model.init_weight()
             optimizer, scheduler = wrapper.get_optimizers(
-                lr=self.optimizer_config.get("learning_rate"),
-                weight_decay=self.optimizer_config.get("weight_decay"),
-                bias_decay=self.optimizer_config.get("bias_decay"),
-                double_bias=self.optimizer_config.get("double_bias"),
-                momentum=self.optimizer_config.get("train_momentum"),
-                lr_decay=self.optimizer_config.get("lr_decay"),
-                step_lr_decay=self.optimizer_config.get("step_lr_decay"),
                 use_adam=self.use_adam,
+                **self.optimizer_config
             )
 
         return optimizer, scheduler, start_epoch

@@ -90,7 +90,8 @@ class TrainerWrapper:
         double_bias,
         momentum,
         lr_decay,
-        step_lr_decay,
+        monitor_mode,
+        patience,
         use_adam=False,
     ):
         params = []
@@ -119,8 +120,12 @@ class TrainerWrapper:
         else:
             optimizer = torch.optim.SGD(params, momentum=momentum)
 
-        scheduler = torch.optim.lr_scheduler.StepLR(
-            optimizer, step_size=step_lr_decay, gamma=lr_decay
+        scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(
+            optimizer,
+            mode=monitor_mode,
+            factor=lr_decay,
+            patience=patience,
+            min_lr=1e-7
         )
 
         return optimizer, scheduler
