@@ -19,6 +19,7 @@ python train.py \
 where:
 - `CKPT_DIR` is the directory where the model checkpoints will be saved.
 
+*You can view my experiment on [Wandb](https://wandb.ai/hoang1007/Faster%20RCNN?workspace=user-hoang1007)*
 ### Testing
 To test a model, run:
 ```bash
